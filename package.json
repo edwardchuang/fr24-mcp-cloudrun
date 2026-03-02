@@ -1,0 +1,14 @@
+{
+  "name": "fr24-mcp-cloudrun",
+  "version": "1.0.0",
+  "description": "Flightradar24 MCP Server for Cloud Run",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@flightradar24/fr24api-mcp": "latest",
+    "mcp-proxy": "latest"
+  }
+}
