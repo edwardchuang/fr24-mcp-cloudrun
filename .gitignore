@@ -29,3 +29,6 @@ test-server.js
 test-server.log
 test-server.pid
 firebase-debug.log
+
+.gemini/
+gha-creds-*.json
