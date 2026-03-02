@@ -1,8 +1,20 @@
+import "mcps-logger/console";
 import { startHTTPServer } from "mcp-proxy";
 import { createServer } from "@flightradar24/fr24api-mcp/build/src/server.js";
+import { spawn } from "child_process";
 
 // Cloud Run injects PORT environment variable
 const PORT = parseInt(process.env.PORT || "8080");
+
+console.log("Starting mcps-logger server in the background...");
+const loggerProcess = spawn(process.execPath, ["./node_modules/mcps-logger/dist/server.js"], {
+    stdio: "inherit",
+    env: process.env
+});
+
+loggerProcess.on("error", (err) => {
+    console.error("Failed to start mcps-logger server:", err);
+});
 
 console.log(`Starting FR24 MCP Server proxy on port ${PORT}...`);
 console.log(`Expecting clients to provide their API key via 'FR24-API-KEY' or 'Authorization: Bearer <key>' header.`);
@@ -45,6 +57,9 @@ startHTTPServer({
     process.on('SIGTERM', () => {
         console.log('SIGTERM received, shutting down gracefully...');
         close();
+        if (loggerProcess && !loggerProcess.killed) {
+            loggerProcess.kill('SIGTERM');
+        }
         process.exit(0);
     });
 }).catch((error) => {

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@flightradar24/fr24api-mcp": "latest",
-    "mcp-proxy": "latest"
+    "mcp-proxy": "latest",
+    "mcps-logger": "^1.0.0"
   }
 }
